@@ -1,0 +1,58 @@
+[Version]
+Signature="$CHICAGO$"
+Class=USB
+provider=%ShangTao%
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+DriverVer=6/27/2011,0.04.1.0
+
+[SourceDisksNames]
+1="ShangTao USB Driver Installation Disk",,,
+
+[SourceDisksFiles]
+stusb.sys = 1
+stusb.inf = 1
+
+[Manufacturer]
+%ShangTao%=ShangTao
+
+[ShangTao]
+%USB\VID_0ADC&PID_0010.DeviceDesc%=STUSB.Dev, USB\VID_0ADC&PID_0010
+
+[PreCopySection]
+HKR,,NoSetupUI,,1
+
+[DestinationDirs]
+STUSB.Files.Ext = 10,System32\Drivers
+STUSB.Files.Inf = 10,INF
+
+[STUSB.Dev.NT]
+CopyFiles=STUSB.Files.Ext, STUSB.Files.Inf
+AddReg=STUSB.AddReg
+
+[STUSB.Dev.NT.Services]
+Addservice = STUSB, 0x00000002, STUSB.AddService
+
+[STUSB.AddService]
+DisplayName    = %STUSB.SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\stusb.sys
+LoadOrderGroup = Base
+
+[STUSB.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,stusb.sys
+
+[STUSB.Files.Ext]
+stusb.sys
+
+[STUSB.Files.Inf]
+stusb.Inf
+
+;---------------------------------------------------------------;
+
+[Strings]
+ShangTao="Mr ShangTao"
+USB\VID_0ADC&PID_0010.DeviceDesc="ShangTao USB Device"
+STUSB.SvcDesc="ShangTao General Purpose USB Driver"
